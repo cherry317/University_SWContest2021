@@ -99,25 +99,109 @@ noun_dic[50]
 <br>
 
 ### LDA 토픽 모델링
+모델 성능 평가 지표 Perplexity, Coherence를 이용하여 최선의 토픽 수를 선정한다.
+|**구분**|**Perplexity(혼잡도)**|**Coherence(일관성)**|
+|:---:|---|---|
+|**내용**|- 확률 모델이 결과를 얼마나 정확하게 예측하는지 판단<br>- 낮을수록 정확하게 예측 =모델이 문서를 잘 반영함|- 토픽이 얼마나 의미론적으로 일관성 있는지 판단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>- 높을수록 의미론적 일관성 높음&nbsp;&nbsp;&nbsp;|
+|**한계**|낮다고 해서, 결과가 해석 용이하다는 의미는 아님|너무 높아지면 정보의 양이 줄어들게 됨|
 
+```python
+Lda = gensim.models.ldamodel.LdaModel
+perplexity_score=[]
+coherence_score=[]
 
+for i in range(1,10):
+    ldamodel=Lda(corpus, num_topics=i, id2word=noun_dic, passes=15, iterations=200, random_state=0)
+    perplexity_score.append(ldamodel.log_perplexity(corpus)) #혼잡도
+    coherence_score.append(CoherenceModel(model=ldamodel, corpus=corpus, coherence='u_mass').get_coherence()) #일관성
+```
+- 토픽 수가 1~ 9개일 때 각각의 혼잡도와 일관성을 측정한다.
+- LDA 파라미터
+  - num_topics: 토픽 수 
+  - passes: 전체 코퍼스 학습 횟수
+  - interations: 문서 당 반복 횟수
+
+```python
+plt.plot(range(1,10),perplexity_score,'r',marker='^') #(x,y,color)
+plt.xlabel("number of topics")
+plt.ylabel("perplexity score")
+plt.show()
+```
+<ul>
+<img src="https://user-images.githubusercontent.com/103558593/210403305-3f61b7b0-ce4a-4809-8b7d-d0faa87be82a.png", width="400", height="200"><br><br>
+</ul>
+
+```python
+plt.plot(range(1,10),coherence_score,'b',marker='o')
+plt.xlabel("number of topics")
+plt.ylabel("coherence score")
+plt.show()
+```
+<ul>
+<img src="https://user-images.githubusercontent.com/103558593/210403706-24179602-2abf-4774-acc5-e0fedd153e43.png", width="400", height="200"><br><br>
+</ul>
+
+```python
+lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=200, random_state=0)
+```
+- 위에서 선정한 최선의 토픽 수로 토픽 모델링을 진행한다.
+
+<br>
 
 ### 시각화
+<ul>
+  <img src="https://user-images.githubusercontent.com/103558593/210376012-55821337-02ad-4d83-84e8-250c97158c44.png", width="800", height="150"><br><br>
+  <li>토픽별 단어 분포를 이용하여 각 토픽별 상위 랭크 단어를 확인한다.</li>
+</ul>
+
+- LDA Topic Modeling 해석 방법
+  - 토픽 간 거리가 멀수록 판별 타당도가 높고 주제가 뚜렷하게 구분됨 
+  - 토픽 원의 크기가 클수록 높은 빈도를 가진 단어들로 구성됨
+  - 우측 파란막대그래프는 전체의 빈도를, 빨간막대그래프는 해당 토픽 내 빈도를 나타냄
+
+<br>
 
 ## 토픽별 주요 키워드 확인
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
-
 ### 1. 워드클라우드 (빈도 기반 시각화)
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+<ul>
+  <img src="https://user-images.githubusercontent.com/103558593/210391509-d2e901bf-f80e-41f9-836f-ad0d7605efef.png", width="800", height="300"><br><br>
+  <li>가장 좌측의 그림: 전체 상위 빈도 단어 50개 시각화</li>
+  <li>우측 1번 그림: Topic1 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'이사/수리'</b>로 라벨링</li>
+  <li>우측 2번 그림: Topic2 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'웨딩'</b>으로 라벨링</li>
+  <li>우측 3번 그림: Topic3 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'입시/교육'</b>으로 라벨링</li>
+  <li>우측 4번 그림: Topic4 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'음식/맛집'</b>으로 라벨링</li>
+</ul>
+
+<br>
 
 ### 2. Word2Vec, TSNE (유사도 기반 시각화)
 <li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
 
+<br>
+
 ## 긍부정 분석
 <li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+
+<br>
 
 ## 인사이트 도출
 <li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
 
+<br>
+
 ## 마무리하며..
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+<li> 이번 프로젝트에서는 빈도 기반 벡터화(BoW)를 진행하였지만, 다음엔 TfidfVectorizer를 이용하여 LDA를 수행해보고 차이를 알아봐야겠다.</li>
+<li> Kmeans도 토픽모델링으로 이용 가능하다고 하는데, 다음엔 LDA가 아닌 k-means clustering을 이용하여 토픽모델링을 진행해봐야겠다.</li>
+
+<br>
+
+> LDA와 k-means의 차이
+
+|**구분**|LDA|k-means|
+|:---:|--|---|
+|문서의 토픽 수에 대한 가정|한 문서에 여러 종류의 토픽이 존재할 수 있다 가정|k-means는 한 문서에 하나의 토픽만 존재한다고 가정|
+|예시|영화 리뷰_ 한 문서에 여러 관점이 존재|뉴스_ 한 문서에 하나의 주제 존재|<br>
+
+[fork my repository](https://github.com/user/repository/fork)
+[watch this repo](https://github.com/user/repository/subscription)
+[create issue](https://github.com/user/repository/issues/new)
