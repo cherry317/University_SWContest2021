@@ -202,9 +202,6 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 |문서의 토픽 수에 대한 가정|한 문서에 여러 종류의 토픽이 존재할 수 있다 가정|k-means는 한 문서에 하나의 토픽만 존재한다고 가정|
 |예시|영화 리뷰_ 한 문서에 여러 관점이 존재|뉴스_ 한 문서에 하나의 주제 존재|<br>
 
-[fork my repository](https://github.com/user/repository/fork)
-[watch this repo](https://github.com/user/repository/subscription)
-[create issue](https://github.com/user/repository/issues/new)
 
 <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/cherry317/University_SWContest2021" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star cherry317/University_SWContest2021 on GitHub">Star</a>
