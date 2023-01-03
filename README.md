@@ -1,7 +1,6 @@
 # University_SWContest2021
 
 _Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출하여 지자체의 의사결정에 지원해보기 위해 프로젝트를 수행함._
-⭐
 
 ## 데이터 수집
 <ul>
@@ -155,9 +154,10 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 </ul>
 
 - LDA Topic Modeling 해석 방법
-  - 토픽 간 거리가 멀수록 판별 타당도가 높고 주제가 뚜렷하게 구분됨 
-  - 토픽 원의 크기가 클수록 높은 빈도를 가진 단어들로 구성됨
-  - 우측 파란막대그래프는 전체의 빈도를, 빨간막대그래프는 해당 토픽 내 빈도를 나타냄
+  - 토픽 간 거리가 멀수록 판별 타당도가 높고 주제가 뚜렷하게 구분된다.
+  - 토픽 원의 크기가 클수록 높은 빈도를 가진 단어들로 구성된다.
+  - 우측 파란막대그래프는 전체의 빈도를, 빨간막대그래프는 해당 토픽 내 빈도를 나타낸다.
+  - λ(람다)값을 낮게 설정하면 각 토픽을 구성하는 단어가 뚜렷해지지만 비교적 빈도가 낮은 단어들로 구성된다.
 
 <br>
 
@@ -175,7 +175,36 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 <br>
 
 ### 2. Word2Vec, TSNE (유사도 기반 시각화)
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+```python
+def w2v(topic):
+    df = total_docs[total_docs['topic']==topic]
+    model = Word2Vec(sentences = df['doc_noun'], size=50, window = 15, min_count=100, workers=4, iter=100, sg=1)
+    word_vectors = model.wv.vectors # 어휘의 feature vector
+    topic_w2v = (model, word_vectors)
+    return topic_w2v
+```
+- w2v을 이용하여 단어를 유사도로 벡터화
+
+```python
+def tsne(w2v):
+    vocab = list(w2v[0].wv.vocab)
+    X = w2v[0][vocab]
+    tsne = TSNE(n_components=2, random_state = 3, learning_rate = 500)
+    X_tsne = tsne.fit_transform(X)
+    df_plot = pd.DataFrame(X_tsne, index=vocab, columns=["x", "y"])
+    fig = plt.figure()
+    fig.set_size_inches(10, 10)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.scatter(df_plot['x'], df_plot['y'])
+    for word, pos in df_plot.iterrows():
+        ax.annotate(word, pos)
+    plt.show()
+```
+- tsne를 이용하여 2차원으로 시각화
+
+
+- 단어간 유사할수록 밀집되어 분포함
+
 
 <br>
 
@@ -184,7 +213,7 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 
 <br>
 
-## 인사이트 도출
+## 인사이트 도출⭐
 <li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
 
 <br>
@@ -202,5 +231,3 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 |문서의 토픽 수에 대한 가정|한 문서에 여러 종류의 토픽이 존재할 수 있다 가정|k-means는 한 문서에 하나의 토픽만 존재한다고 가정|
 |예시|영화 리뷰_ 한 문서에 여러 관점이 존재|뉴스_ 한 문서에 하나의 주제 존재|<br>
 
-<!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/cherry317/University_SWContest2021/buttons/github-buttons" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star cherry317/University_SWContest2021 on GitHub">Star</a>
