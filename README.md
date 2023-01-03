@@ -205,3 +205,6 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
 [fork my repository](https://github.com/user/repository/fork)
 [watch this repo](https://github.com/user/repository/subscription)
 [create issue](https://github.com/user/repository/issues/new)
+
+<!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://github.com/cherry317/University_SWContest2021" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star cherry317/University_SWContest2021 on GitHub">Star</a>
