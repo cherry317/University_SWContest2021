@@ -1,6 +1,6 @@
 # University_SWContest2021
 
-_Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출하여 지자체의 의사결정에 지원해보기 위해 프로젝트를 수행함._
+Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출하여 지자체의 의사결정에 지원해보기 위해 프로젝트를 수행함.
 
 ## 데이터 수집
 <ul>
@@ -20,7 +20,7 @@ _Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도
   <li> 불용어(무의미하거나 불필요한 단어) 제거</li>
 </ul>
 
-[불용어 사전 참조](https://www.ranks.nl/stopwords/korean) 
+[한국어 불용어사전 참고](https://www.ranks.nl/stopwords/korean) 
 
 <br>
 
@@ -158,7 +158,7 @@ lda_model = Lda(corpus, num_topics=4, id2word=noun_dic, passes=15, iterations=20
   - 토픽 원의 크기가 클수록 높은 빈도를 가진 단어들로 구성된다.
   - 우측 파란막대그래프는 전체의 빈도를, 빨간막대그래프는 해당 토픽 내 빈도를 나타낸다.
   - λ(람다)값을 낮게 설정하면 각 토픽을 구성하는 단어가 뚜렷해지지만 비교적 빈도가 낮은 단어들로 구성된다.
-
+  - 토픽 원 내 보여지는 번호는 할당된 토픽 번호와 무관하다. 
 <br>
 
 ## 토픽별 주요 키워드 확인
@@ -183,7 +183,7 @@ def w2v(topic):
     topic_w2v = (model, word_vectors)
     return topic_w2v
 ```
-- w2v을 이용하여 단어를 유사도로 벡터화
+- w2v을 이용하여 단어를 유사도로 벡터화한다.
 
 ```python
 def tsne(w2v):
@@ -200,36 +200,63 @@ def tsne(w2v):
         ax.annotate(word, pos)
     plt.show()
 ```
-- tsne를 이용하여 2차원으로 시각화
+- tsne를 이용하여 2차원으로 시각화한다.
 
 <ul>
-  <img src="https://user-images.githubusercontent.com/103558593/210422415-ba36cdde-a531-4b68-b691-aa36ddcb3dbb.png", width="750", height="200"><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic2
-    <img src="https://user-images.githubusercontent.com/103558593/210423687-16bc4887-a443-4553-9ec0-513202efbef5.png", width="750", height="200"><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic4
-  <li>단어간 유사할수록 밀집되어 분포함</li>
-  <li>우측 1번 그림: Topic1 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'이사/수리'</b>로 라벨링</li>
-  <li>우측 2번 그림: Topic2 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'웨딩'</b>으로 라벨링</li>
-  <li>우측 3번 그림: Topic3 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'입시/교육'</b>으로 라벨링</li>
-  <li>우측 4번 그림: Topic4 상위 빈도 단어 50개 시각화 -> &nbsp;<b>'음식/맛집'</b>으로 라벨링</li>
+  <img src="https://user-images.githubusercontent.com/103558593/210422415-ba36cdde-a531-4b68-b691-aa36ddcb3dbb.png", width="750", height="200"><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic2
+    <img src="https://user-images.githubusercontent.com/103558593/210423687-16bc4887-a443-4553-9ec0-513202efbef5.png", width="750", height="200"><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic4<br><br>
+  <li>각 토픽별 단어간 유사도를 파악한다.</li>
+  <li>단어간 유사할수록 밀집되어 분포한다.</li>
+  <li>Topic4 <b>'음식/맛집'</b>의 단어간 유사도가 가장 높은 것을 확인할 수 있다.</li>
+  <li>Topic3 <b>'입시/교육'</b>에서 '사다리차'가 '사다'와 '리차'로 분리되어 해당 토픽의 단어들과 유사도가 매우 낮은 것을 확인할 수 있다.</li>
+  <li>이러한 경우, 불용어로 처리하여 제거 후 다시 유사도를 파악한다.</li>
 </ul>
-
 
 <br>
 
 ## 긍부정 분석
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+문장 내 감정을 추출해내어 어떠한 긍부정 감정을 가지고 있는가를 판단하여 분석한다.</li>
+
+[KNU 한국어 감성사전 참고](http://dilab.kunsan.ac.kr/knusl.html) 
+<ul>
+  <img src="https://user-images.githubusercontent.com/103558593/210428767-9b766066-8ec1-49dd-88a5-243337db88e1.png", width="750", height="200"><br><br>
+  <li>감성사전과 비교하여 감성단어에 해당되면 극성 점수를 부여한다. (-2: 매우부정, -1: 부정, 0: 중립, 1: 긍정, 2: 매우긍정)</li>
+  <li>문서별 평균 극성 점수를 계산하여, 0값을 기준으로 문서의 긍부정을 판별한다.</li>
+</ul>
+
+<ul>
+  <img src="https://user-images.githubusercontent.com/103558593/210432315-d14d9beb-87ce-4181-92a8-ed881993c9c9.png", width="600", height="100"><br><br>
+  <li>Topic3 <b>'입시/교육'</b>은 상대적으로 긍정 비율이 낮고 <b>부정 비율이 높다</b>.
+  <li>Topic4 <b>'음식/맛집'</b>은 상대적으로 <b>긍정 비율이 높고</b> 부정 비율이 낮다.</li>
+</ul>
 
 <br>
 
 ## 인사이트 도출⭐
-<li> Social-media 기반의 텍스트 마이닝을 통해 주요 인사이트를 도출한다.</li>
+> '이사/수리', '웨딩', '입시/교육', '음식/맛집' 등 의정부시의 4개의 주요 관심사 도출
+<b>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic1. '이사/수리'&nbsp;&nbsp;&nbsp; - 엔진오일, 업체, 이사, 설치, 교환<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic2. &nbsp;&nbsp;&nbsp;&nbsp;'웨딩'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 신부, 운동, 관리, 다이어트, 치료<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic3. '입시/교육'&nbsp;&nbsp;&nbsp; - 과외, 수업, 학생, 학습, 공부<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Topic4. '음식/맛집'&nbsp;&nbsp;&nbsp; - 맛집, 주문, 고기, 추천, 지도
+</b><br><br>
+
+> 개선 방향
+<ol>
+  <li> 상대적으로 부정 비율이 높은 <b>'입시/교육'</b> 토픽의 <b>지원 방안</b> 모색 </li> <br>
+  - 관내 우수학교 육성을 위한 지원<br>
+  - 입시학원의 경쟁력 강화 등의 방안<br>
+  - 관내 복합도서실 운영<br><br>
+  
+  <li> 상대적으로 긍정 비율이 높은 <b>'음식/맛집'</b> 토픽의 <b>활성화 방안</b> 모색 </li> <br>
+  - 지역경제 활성화를 위한 지역화폐 사용에 따른 할인 혜택 연계<br>
+  - 우수 평가 식당에 대한 지원 등의 방안<br>
+</ol>
 
 <br>
 
 ## 마무리하며..
-<li> 이번 프로젝트에서는 빈도 기반 벡터화(BoW)를 진행하였지만, 다음엔 TfidfVectorizer를 이용하여 LDA를 수행해보고 차이를 알아봐야겠다.</li>
-<li> Kmeans도 토픽모델링으로 이용 가능하다고 하는데, 다음엔 LDA가 아닌 k-means clustering을 이용하여 토픽모델링을 진행해봐야겠다.</li>
-
-<br>
+_다음엔 빈도 기반 벡터화(BoW) 대신 TfidfVectorizer를 사용해보고, LDA 대신 k-means clustering을 이용해서 모델링을 해봐야겠다.._
 
 > LDA와 k-means의 차이
 
